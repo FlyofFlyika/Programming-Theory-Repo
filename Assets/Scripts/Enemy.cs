@@ -59,6 +59,7 @@ public class Enemy : MonoBehaviour
 
     public void Kill()// ABSTRACTION
     {
+        player.KillEnemy();
         Destroy(gameObject);
     }
     // Update is called once per frame

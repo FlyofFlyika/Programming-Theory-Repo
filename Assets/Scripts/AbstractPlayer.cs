@@ -6,15 +6,21 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
+
 public abstract class AbstractPlayer : MonoBehaviour
 {
     // Start is called before the first frame update
     public float speed = 10;
     public Transform lookAt;
+    public ScoreUi scoreUi;
     public CinemachineVirtualCamera cinemachineVirtualCamera;
     private void Start()
     {
         cinemachineVirtualCamera.Follow = lookAt;
+    }
+    public void KillEnemy()
+    {
+        scoreUi.score += 1;
     }
     public void Move()
     {
