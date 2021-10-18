@@ -1,6 +1,9 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 public abstract class AbstractPlayer : MonoBehaviour
@@ -20,6 +23,15 @@ public abstract class AbstractPlayer : MonoBehaviour
         float frameSpeed = Time.deltaTime * speed;
         transform.Translate(Vector3.forward * frameSpeed * verticalDirection);
         transform.Translate(Vector3.right * frameSpeed * horizontalDirection);
+    }
+    public void Kill()
+    {
+
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit(); 
+#endif
     }
     public abstract void Fight();// ABSTRACTION
     // Update is called once per frame
