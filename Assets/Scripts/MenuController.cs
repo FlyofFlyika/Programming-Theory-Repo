@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    public void StartNew()
+    public void StartNew()// ABSTRACTION
     {
         SceneManager.LoadScene(1);
     }
