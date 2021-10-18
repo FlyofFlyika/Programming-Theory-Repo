@@ -17,11 +17,18 @@ public class Enemy : MonoBehaviour
     {
        
         float frameSpeed = Time.deltaTime * speed;
-        enemyRigidBody.AddForce(DirToPlayer() * frameSpeed,ForceMode.Impulse);
+        transform.Translate(DirToPlayer() * frameSpeed,Space.World);
+    }
+    public void AddImpulsePlayer(float impulse)
+    {
+
+        enemyRigidBody.AddForce(-DirToPlayer()*impulse, ForceMode.Impulse);
     }
     public Vector3 DirToPlayer()// ABSTRACTION
     {
-        return (player.transform.position - transform.position).normalized;
+        Vector3 normalDir = (player.transform.position - transform.position).normalized;
+        normalDir.y = 0;
+        return normalDir;
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -29,6 +36,30 @@ public class Enemy : MonoBehaviour
         {
             player.Kill();
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        EnemyTrigger enemyTrigger =    other.GetComponent<EnemyTrigger>();
+        if (!enemyTrigger)
+        {
+            Kill();
+            return;
+        }
+        enemyTrigger.AddEnemy(this);
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        EnemyTrigger enemyTrigger = other.GetComponent<EnemyTrigger>();
+        if (!enemyTrigger) {
+            Kill();
+            return;
+        }
+        enemyTrigger.RemoveEnemy(this);
+    }
+
+    public void Kill()// ABSTRACTION
+    {
+        Destroy(gameObject);
     }
     // Update is called once per frame
     void Update()
